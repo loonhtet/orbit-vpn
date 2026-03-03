@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-serif-orbit: var(--font-instrument-serif);
+  --font-sans-orbit: var(--font-geist-sans);
+  --font-mono-orbit: var(--font-ibm-plex-mono);
+  --font-geist-mono: var(--font-geist-mono);
+
+  /* Custom Theme Colors */
+  --color-daylight-primary: #dcfce7;
+  --color-daylight-secondary: #f0fdf4;
+  --color-daylight-background: #f8f9fa;
+
+  --color-blush-primary: #fee2e2;
+  --color-blush-secondary: #fef2f2;
+  --color-blush-background: #fffcfc;
+
+  --color-sky-primary: #e0f2fe;
+  --color-sky-secondary: #f0f9ff;
+  --color-sky-background: #fafcfe;
+
+  --color-lemon-primary: #fef9c3;
+  --color-lemon-secondary: #fffde7;
+  --color-lemon-background: #fdfdf8;
+
+  --color-silent: #303131;
+
+  --color-success: #22c55e;
+  --color-danger: #ef4444;
+  --color-warning: #f59e0b;
+  --color-mute: #64748b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans-orbit);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar for minimalist feel */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Hide scrollbars for code pre elements */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Bento Background Texture */
+
+.bento-texture {
+  background-image: radial-gradient(#9ca3af 0.8px, transparent 0.8px);
+  background-size: 20px 20px;
+}
+
+.uppercase-mono {
+  font-family: var(--font-mono-orbit);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Hide Number Input Spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
