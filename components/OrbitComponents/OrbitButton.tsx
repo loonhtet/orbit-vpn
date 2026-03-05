@@ -1,5 +1,21 @@
+import { useWebHaptics } from "web-haptics/react";
 import { OrbitLoader } from "./OrbitLoader";
 import { OrbitComponentProps } from "./type";
+
+const hapticVariants = {
+  success: [{ duration: 30 }, { delay: 60, duration: 40, intensity: 1 }],
+  warning: [
+    { duration: 40, intensity: 0.8 },
+    { delay: 100, duration: 40, intensity: 0.6 },
+  ],
+  error: [
+    { duration: 40 },
+    { delay: 40, duration: 40 },
+    { delay: 40, duration: 40 },
+  ],
+} as const;
+
+type Haptic = keyof typeof hapticVariants;
 
 export const OrbitButton: React.FC<
   OrbitComponentProps & {
@@ -10,6 +26,7 @@ export const OrbitButton: React.FC<
     size?: "sm" | "md" | "lg";
     iconLeft?: React.ReactNode;
     iconRight?: React.ReactNode;
+    haptic?: Haptic;
   }
 > = ({
   children,
@@ -22,6 +39,7 @@ export const OrbitButton: React.FC<
   size = "md",
   iconLeft,
   iconRight,
+  haptic = "success",
 }) => {
   const sizes = {
     sm: "px-4 py-2 text-[10px]",
@@ -35,10 +53,15 @@ export const OrbitButton: React.FC<
     ghost: `bg-transparent text-black border-transparent hover:border-black`,
   };
 
+  const { trigger } = useWebHaptics();
+
   return (
     <button
       disabled={disabled || loading}
-      onClick={onClick}
+      onClick={() => {
+        trigger([...hapticVariants[haptic]]);
+        onClick?.();
+      }}
       className={`${baseStyles} ${variants[variant]} ${className}`}
     >
       {loading ? (

@@ -24,8 +24,8 @@ export default function FormWidget() {
   useEffect(() => {
     const fetchStatus = async () => {
       const [result] = await Promise.allSettled([
-        fetch("http://156.67.219.197:3000/status", {
-          headers: { "x-api-key": "loonhtet-vpn-2026-xYz9#mK" },
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/status`, {
+          headers: { "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "" },
         }).then((r) => r.json()),
         new Promise((res) => setTimeout(res, 800)),
       ]);
@@ -49,11 +49,11 @@ export default function FormWidget() {
     setStatus("submitting");
 
     try {
-      const res = await fetch("http://156.67.219.197:3000/register", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": "loonhtet-vpn-2026-xYz9#mK",
+          "x-api-key": process.env.NEXT_PUBLIC_API_KEY || "",
         },
         body: JSON.stringify({ name: name || undefined, email }),
       });
@@ -184,7 +184,11 @@ export default function FormWidget() {
                   transition={{ delay: 0.4 }}
                   className="mt-4"
                 >
-                  <OrbitButton variant="outline" onClick={resetForm}>
+                  <OrbitButton
+                    haptic="success"
+                    variant="outline"
+                    onClick={resetForm}
+                  >
                     Done
                   </OrbitButton>
                 </motion.div>
@@ -224,10 +228,18 @@ export default function FormWidget() {
                   transition={{ delay: 0.4 }}
                   className="flex gap-3 mt-4"
                 >
-                  <OrbitButton variant="solid" onClick={handleSubmit}>
+                  <OrbitButton
+                    haptic="success"
+                    variant="solid"
+                    onClick={handleSubmit}
+                  >
                     Try Again
                   </OrbitButton>
-                  <OrbitButton variant="outline" onClick={resetForm}>
+                  <OrbitButton
+                    haptic="success"
+                    variant="outline"
+                    onClick={resetForm}
+                  >
                     Go Back
                   </OrbitButton>
                 </motion.div>
@@ -252,17 +264,14 @@ export default function FormWidget() {
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -6 }}
                           transition={{ duration: 0.35, ease: "easeOut" }}
-                          className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-red-100 border border-red-300 w-full"
+                          className="flex items-center gap-2.5 w-full"
                         >
                           <span className="relative flex h-3 w-3 shrink-0">
-                            <span className="absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75 animate-ping" />
-                            <span className="relative inline-flex h-3 w-3 rounded-full bg-red-500" />
+                            <span className="absolute inline-flex h-full w-full rounded-full bg-dangeropacity-75 animate-ping" />
+                            <span className="relative inline-flex h-3 w-3 rounded-full bg-danger" />
                           </span>
-                          <span className="text-sm font-semibold text-red-700">
+                          <span className="text-sm font-bold font-mono-orbit text-danger">
                             Server Offline
-                          </span>
-                          <span className="ml-auto text-xs text-red-400 font-medium">
-                            Disruption detected
                           </span>
                         </motion.div>
                       ) : (
